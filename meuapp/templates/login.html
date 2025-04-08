@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Entrar</title>
+    {% load static %}
+    <style>
+        body {
+            margin: 0;
+            font-family: Cutive Mono, sans-serif;
+            background-color: rgb(235, 235, 235);
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            text-align: center;
+            overflow-x: hidden; /* Evita rolagem horizontal */
+        }
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100px;
+            background-color: #a41612;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 150px;
+            height: 150px;
+            background-color: #fff;
+            border-radius: 50%;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-top: 50px; /* Ajuste para centralizar a logo dentro do cabeçalho */
+        }
+        .logo {
+            max-width: 100px;
+            border-radius: 50%;
+        }
+        main {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+            margin-top: 160px; /* Ajuste para considerar a altura do cabeçalho e adicionar espaço */
+        }
+        .form-container {
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        .form-container h2 {
+            margin-top: 0;
+        }
+        .form-container form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .form-container form input, .form-container form button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        .form-container form button {
+            background-color: #a41612;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+        .form-container form button:hover {
+            background-color: #0056b3;
+        }
+        .side-container {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            width: 200px;
+            height: 100vh;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            z-index: 999; /* Garante que os contêineres laterais fiquem acima do conteúdo principal */
+        }
+        footer {
+            background-color:rgb(235, 235, 235);
+            color: #333;
+            padding: 20px;
+            text-align: center;
+            width: 100%;
+            height: 150px;
+            position: relative;
+            bottom: 0;
+            left: 0;
+        }
+        .footer-icons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 40px; /* Espaço entre os ícones */
+        }
+        .footer-icon {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px; /* Espaço entre o texto e o ícone */
+        }
+        .instagram-icon, .googlemaps-icon {
+            width: 40px; /* Ajuste a largura da imagem */
+            height: 40px; /* Ajuste a altura da imagem */
+            vertical-align: middle;
+        }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&family=Winky+Sans:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <img src="{% static 'imagens/logo_padaria_menor.png' %}" alt="Panificadora Neves" class="logo">
+        </div>
+    </header>
+    <main>
+        <div class="form-container">
+            <h2>Entrar</h2>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Registrar</button>
+            </form>
+        </div>
+    </main>
+    <footer>
+        <div class="footer-icons">
+            <div class="footer-icon">
+                <p>Siga-nos no Instagram para ver mais!</p>
+                <a href="https://www.instagram.com/padaria_nevespd/" target="_blank">
+                    <img src="{% static 'imagens/instagram.png' %}" alt="Instagram" class="instagram-icon">
+                </a>
+            </div>
+            <div class="footer-icon">
+                <p>Faça-nos uma visitinha!</p>
+                <a href="https://www.google.com.br/maps/place/Padaria+Neves/@-23.6379171,-46.4491313,17z/data=!3m1!4b1!4m6!3m5!1s0x94ce69294f144a93:0x23f0a8222921f85!8m2!3d-23.6379171!4d-46.4465564!16s%2Fg%2F11f3qx07sg?entry=ttu&g_ep=EgoyMDI1MDMwOC4wIKXMDSoASAFQAw%3D%3D" target="_blank">
+                    <img src="{% static 'imagens/google-maps.png' %}" alt="Google Maps" class="googlemaps-icon">
+                </a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

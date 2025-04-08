@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pagamento</title>
+    {% load static %}
+    <style>
+        body {
+            margin: 0;
+            font-family: Cutive Mono, sans-serif;
+            background-color: #ebebeb;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
+            text-align: center;
+            overflow-x: hidden;
+        }
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100px;
+            background-color: #a41612;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 130px;
+            height: 130px;
+            background-color: #ffffff;
+            border-radius: 30%;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-top: 50px;
+        }
+        .logo {
+            position: relative;
+            max-width: 100px;
+            border-radius: 50%;
+        }
+        .container {
+            width: 80%;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            margin-top: 150px; /* Espaço para evitar sobreposição com o cabeçalho */
+        }
+        .item-list {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        .item-list ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .item-list li {
+            background-color: #f9f9f9;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: left;
+        }
+        .payment-options {
+            width: 100%;
+            margin-top: 20px;
+        }
+        .payment-options h3 {
+            margin-bottom: 10px;
+        }
+        .payment-options form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .payment-options form button {
+            background-color: #a41612;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+        .payment-options form button:hover {
+            background-color: #0056b3;
+        }
+        .back-button {
+            margin-top: 20px;
+            text-decoration: none;
+            color: #fff;
+            background-color: #a41612;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .back-button:hover {
+            background-color: #0056b3;
+        }
+        .product-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+        }
+        .product-item {
+            text-align: center;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            background-color: #f9f9f9;
+            width: 150px;
+        }
+        .product-image {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <img src="{% static 'imagens/logo_padaria_menor.png' %}" alt="Panificadora Neves" class="logo">
+        </div>
+    </header>
+    <div class="container">
+        <h1>Itens Selecionados</h1>
+        <div class="item-list">
+            {% if produtos %}
+                <div class="product-grid">
+                    {% for produto in produtos %}
+                        <div class="product-item">
+                            <img src="{{ produto.imagem.url }}" alt="{{ produto.name }}" class="product-image">
+                            <p>{{ produto.name }}</p>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p>Nenhum item selecionado.</p>
+            {% endif %}
+        </div>
+        <div class="payment-options">
+            <h3>Escolha uma forma de pagamento:</h3>
+            <form method="post" action="{% url 'finalizar_pagamento' %}">
+                {% csrf_token %}
+                <label>
+                    <input type="radio" name="payment_method" value="cartao" required>
+                    Cartão de Crédito/Débito
+                </label>
+                <label>
+                    <input type="radio" name="payment_method" value="pix" required>
+                    PIX
+                </label>
+                <label>
+                    <input type="radio" name="payment_method" value="boleto" required>
+                    Boleto Bancário
+                </label>
+                <button type="submit">Finalizar Pagamento</button>
+            </form>
+        </div>
+        <a href="{% url 'fazer_pedido' %}" class="back-button">Voltar</a>
+    </div>
+    <footer>
+        <div class="footer-icons">
+            <div class="footer-icon">
+                <p>Siga-nos no Instagram para ver mais!</p>
+                <a href="https://www.instagram.com/padaria_nevespd/" target="_blank">
+                    <img src="{% static 'imagens/instagram.png' %}" alt="Instagram" class="instagram-icon">
+                </a>
+            </div>
+            <div class="footer-icon">
+                <p>Faça-nos uma visitinha!</p>
+                <a href="https://www.google.com.br/maps/place/Padaria+Neves/@-23.6379171,-46.4491313,17z/data=!3m1!4b1!4m6!3m5!1s0x94ce69294f144a93:0x23f0a8222921f85!8m2!3d-23.6379171!4d-46.4465564!16s%2Fg%2F11f3qx07sg?entry=ttu&g_ep=EgoyMDI1MDMwOC4wIKXMDSoASAFQAw%3D%3D" target="_blank">
+                    <img src="{% static 'imagens/google-maps.png' %}" alt="Google Maps" class="googlemaps-icon">
+                </a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

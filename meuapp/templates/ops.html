@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ops! Algo deu errado</title>
+    {% load static %}
+    <style>
+        body {
+            margin: 0;
+            font-family: Cutive Mono, sans-serif;
+            background-color: #ebebeb;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
+            text-align: center;
+        }
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100px;
+            background-color: #a41612;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 130px;
+            height: 130px;
+            background-color: #ffffff;
+            border-radius: 30%;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-top: 50px;
+        }
+        .logo {
+            position: relative;
+            max-width: 100px;
+            border-radius: 50%;
+        }
+        .container {
+            margin-top: 150px; /* Espaço para evitar sobreposição com o cabeçalho */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            width: 80%;
+            max-width: 600px;
+        }
+        .container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+        h1 {
+            color: #a41612;
+            margin-bottom: 20px;
+        }
+        p {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <img src="{% static 'imagens/logo_padaria_menor.png' %}" alt="Panificadora Neves" class="logo">
+        </div>
+    </header>
+    <div class="container">
+        <h1>Ops! Algo deu errado</h1>
+        <p>Desculpe, algo inesperado aconteceu. Por favor, tente novamente mais tarde.</p>
+        <img src="{% static 'imagens/meme_para_pagamento.png' %}" alt="Erro">
+    </div>
+</body>
+</html>
+
+

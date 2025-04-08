@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pedido e Pagamento</title>
+    {% load static %}
+    <style>
+        body {
+            margin: 0;
+            font-family: Cutive Mono, sans-serif;
+            background-color: #ebebeb;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
+            text-align: center;
+            overflow-x: hidden;
+        }
+        .container {
+            width: 80%;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            margin-top: 50px;
+        }
+        .product-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+        }
+        .product-item {
+            text-align: center;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            background-color: #f9f9f9;
+            width: 150px;
+        }
+        .product-image {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+        .payment-options {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .payment-options form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .payment-options form button {
+            background-color: #a41612;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+        .payment-options form button:hover {
+            background-color: #0056b3;
+        }
+        .header-buttons {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .header-button {
+            background-color: #fff;
+            color: #a41612;
+            border: 2px solid #a41612;
+            border-radius: 5px;
+            padding: 10px 20px;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .header-button:hover {
+            background-color: #a41612;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <!-- filepath: c:\Users\maguist\OneDrive\Desktop\primeiro_projeto_django\meuprojeto\meuapp\templates\pedido_pagamento.html -->
+<!-- ...existing code... -->
+<div class="container">
+    <div class="product-grid">
+        {% for produto in produtos %}
+            <div class="product-item">
+                <img src="{{ produto.imagem.url }}" alt="{{ produto.name }}" class="product-image">
+                <p>{{ produto.name }}</p>
+                <button class="select-product" data-name="{{ produto.name }}">Selecionar</button>
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- Novo container para exibir os produtos selecionados -->
+    <div class="selected-products-container">
+        <h3>Produtos Selecionados:</h3>
+        <div class="selected-products-grid">
+            <!-- Este conteúdo será preenchido dinamicamente pelo JavaScript -->
+        </div>
+    </div>
+
+    <div class="payment-options">
+        <h3>Escolha uma forma de pagamento:</h3>
+        <form method="post" action="{% url 'pedido_pagamento' %}">
+            {% csrf_token %}
+            <input type="hidden" name="selected_products" id="selected-products">
+            <label>
+                <input type="radio" name="payment_method" value="cartao" required>
+                Cartão de Crédito/Débito
+            </label>
+            <label>
+                <input type="radio" name="payment_method" value="pix" required>
+                PIX
+            </label>
+            <label>
+                <input type="radio" name="payment_method" value="boleto" required>
+                Boleto Bancário
+            </label>
+            <a href="{% url 'ops' %}" class="header-button">Finalizar Pedido</a>
+        </form>
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const selectedProducts = [];
+        const productButtons = document.querySelectorAll('.select-product');
+        const selectedProductsInput = document.getElementById('selected-products');
+        const selectedProductsGrid = document.querySelector('.selected-products-grid');
+
+        productButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const productName = this.getAttribute('data-name');
+                const productImage = this.parentElement.querySelector('.product-image').src;
+
+                if (!selectedProducts.includes(productName)) {
+                    selectedProducts.push(productName);
+
+                    // Adiciona o produto ao grid de produtos selecionados
+                    const productDiv = document.createElement('div');
+                    productDiv.classList.add('selected-product-item');
+                    productDiv.innerHTML = `
+                        <img src="${productImage}" alt="${productName}" class="product-image">
+                        <p>${productName}</p>
+                    `;
+                    selectedProductsGrid.appendChild(productDiv);
+
+                    this.textContent = "Selecionado";
+                    this.style.backgroundColor = "#a41612";
+                    this.style.color = "#fff";
+                } else {
+                    const index = selectedProducts.indexOf(productName);
+                    selectedProducts.splice(index, 1);
+
+                    // Remove o produto do grid de produtos selecionados
+                    const productDivs = selectedProductsGrid.querySelectorAll('.selected-product-item');
+                    productDivs.forEach(div => {
+                        if (div.querySelector('p').textContent === productName) {
+                            selectedProductsGrid.removeChild(div);
+                        }
+                    });
+
+                    this.textContent = "Selecionar";
+                    this.style.backgroundColor = "";
+                    this.style.color = "";
+                }
+                selectedProductsInput.value = JSON.stringify(selectedProducts);
+            });
+        });
+    });
+</script>
+<style>
+    .selected-products-container {
+        margin-top: 20px;
+        text-align: center;
+        width: 100%;
+    }
+    .selected-products-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        justify-content: center;
+        margin-top: 10px;
+    }
+    .selected-product-item {
+        text-align: center;
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        padding: 10px;
+        background-color: #f9f9f9;
+        width: 150px;
+    }
+    .selected-product-item .product-image {
+        width: 100%;
+        height: auto;
+        border-radius: 10px;
+    }
+</style>
+</body>
+</html>

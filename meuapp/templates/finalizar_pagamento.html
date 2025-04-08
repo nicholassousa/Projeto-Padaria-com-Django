@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Finalizar Pagamento</title>
+    {% load static %}
+    <style>
+        body {
+            margin: 0;
+            font-family: Cutive Mono, sans-serif;
+            background-color: #ebebeb;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
+            text-align: center;
+            overflow-x: hidden;
+        }
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100px;
+            background-color: #a41612;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 130px;
+            height: 130px;
+            background-color: #ffffff;
+            border-radius: 30%;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-top: 50px;
+        }
+        .logo {
+            position: relative;
+            max-width: 100px;
+            border-radius: 50%;
+        }
+        .container {
+            width: 80%;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            margin-top: 150px; /* Espaço para evitar sobreposição com o cabeçalho */
+        }
+        .item-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .item {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 150px;
+            height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .payment-summary {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .back-button {
+            margin-top: 20px;
+            text-decoration: none;
+            color: #fff;
+            background-color: #a41612;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .back-button:hover {
+            background-color: #0056b3;
+        }
+        .product-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+        }
+        .product-item {
+            text-align: center;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            background-color: #f9f9f9;
+            width: 150px;
+        }
+        .product-image {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <img src="{% static 'imagens/logo_padaria_menor.png' %}" alt="Panificadora Neves" class="logo">
+        </div>
+    </header>
+    <div class="container">
+        <h1>Resumo do Pagamento</h1>
+        <div class="item-list">
+            {% if produtos %}
+                <div class="product-grid">
+                    {% for produto in produtos %}
+                        <div class="product-item">
+                            <img src="{{ produto.imagem.url }}" alt="{{ produto.name }}" class="product-image">
+                            <p>{{ produto.name }}</p>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p>Nenhum item selecionado.</p>
+            {% endif %}
+        </div>
+        <div class="payment-summary">
+            <h3>Forma de Pagamento Escolhida:</h3>
+            <p>{% if payment_method %}{{ payment_method|capfirst }}{% else %}Nenhuma forma de pagamento selecionada.{% endif %}</p>
+        </div>
+        <a href="{% url 'home' %}" class="back-button">Voltar para a Home</a>
+    </div>
+</body>
+</html>

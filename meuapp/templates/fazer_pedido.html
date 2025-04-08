@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% load static %}
+    <title>Fazer Pedido</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Cutive Mono, sans-serif;
+            background-color: #ebebeb;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start; /* Alinha o conteúdo no topo */
+            min-height: 100vh;
+            text-align: center;
+            overflow-x: hidden; /* Evita rolagem horizontal */
+        }
+        .container {
+            width: 80%;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            margin-top: 120px; /* Adiciona espaço para evitar sobreposição com o cabeçalho */
+        }
+        .product-row {
+            display: flex;
+            justify-content: center;
+            gap: 20px; /* Espaço entre os quadrados */
+            margin-bottom: 20px;
+        }
+        .product {
+            width: 150px;
+            height: 150px;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative; /* Necessário para posicionar o ícone de seleção */
+            cursor: pointer; /* Indica que o item é clicável */
+        }
+        .product.selected {
+            border: 2px solid #a41612; /* Destaque para itens selecionados */
+            box-shadow: 0 0 10px rgba(164, 22, 18, 0.5);
+        }
+        .product img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+        .product-name {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            opacity: 0;
+            transition: opacity 0.3s ease; /* Transição suave */
+            pointer-events: none; /* Evita interferência no hover */
+        }
+        .product:hover .product-name {
+            opacity: 1; /* Mostra o nome ao passar o mouse */
+        }
+        .product .check-icon {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 20px;
+            height: 20px;
+            background-color: #a41612;
+            color: #fff;
+            border-radius: 50%;
+            display: none; /* Inicialmente oculto */
+            justify-content: center;
+            align-items: center;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .product.selected .check-icon {
+            display: flex; /* Mostra o ícone quando o produto é selecionado */
+        }
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100px;
+            background-color: #a41612;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 130px;
+            height: 130px;
+            background-color: #ffffff;
+            border-radius: 30%;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-top: 50px;
+        }
+        .logo {
+            position: relative;
+            max-width: 100px;
+            border-radius: 50%;
+        }
+        .header-button {
+            background-color: #fff;
+            color: #a41612;
+            border: 2px solid #a41612;
+            border-radius: 5px;
+            padding: 10px 20px;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background-color 0.3s, color 0.3s;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .header-button:hover {
+            background-color: #a41612;
+            color: #fff;
+        }
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&family=Winky+Sans:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const productBoxes = document.querySelectorAll('.product');
+
+            productBoxes.forEach(box => {
+                box.addEventListener('click', function() {
+                    this.classList.toggle('selected'); // Alterna a classe 'selected'
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <img src="{% static 'imagens/logo_padaria_menor.png' %}" alt="Panificadora Neves" class="logo">
+        </div>
+    </header>
+    <div class="container">
+        <h1>Selecione o produto que deseja</h1>
+        <form method="post" action="{% url 'carrinho' %}">
+            {% csrf_token %}
+            <div class="product-row">
+                <div class="product">
+                    <img src="{% static 'imagens/pao_frances.png' %}" alt="Pão Francês">
+                    <div class="product-name">Pão Francês</div>
+                    <div class="check-icon">✔</div>
+                </div>
+                <div class="product">
+                    <img src="{% static 'imagens/pao_de_queijo.png' %}" alt="Pão de Queijo">
+                    <div class="product-name">Pão de Queijo</div>
+                    <div class="check-icon">✔</div>
+                </div>
+                <div class="product">
+                    <img src="{% static 'imagens/pudim_de_chocolate.png' %}" alt="Pudim de Chocolate">
+                    <div class="product-name">Pudim de Chocolate</div>
+                    <div class="check-icon">✔</div>
+                </div>
+                <div class="product">
+                    <img src="{% static 'imagens/Rocambole_de_Red_Velvet.png' %}" alt="Rocambole Red Velvet">
+                    <div class="product-name">Rocambole Red Velvet</div>
+                    <div class="check-icon">✔</div>
+                </div>
+            </div>
+            <div class="product-row">
+                <div class="product">
+                    <img src="{% static 'imagens/sonho_recheado_com_creme.png' %}" alt="Sonho Recheado">
+                    <div class="product-name">Sonho Recheado</div>
+                    <div class="check-icon">✔</div>
+                </div>
+                <div class="product">
+                    <img src="{% static 'imagens/cupcake_floresta_negra.jpeg' %}" alt="Cupcake Floresta Negra">
+                    <div class="product-name">Cupcake Floresta Negra</div>
+                    <div class="check-icon">✔</div>
+                </div>
+                <div class="product">
+                    <img src="{% static 'imagens/rosquinha.jpg' %}" alt="Rosquinha">
+                    <div class="product-name">Rosquinha</div>
+                    <div class="check-icon">✔</div>
+                </div>
+            </div>
+            <div class="product-row">
+                <div class="product">
+                    <img src="{% static 'imagens/pretzel.jpg' %}" alt="Pretzel">
+                    <div class="product-name">Pretzel</div>
+                    <div class="check-icon">✔</div>
+                </div>
+                <div class="product">
+                    <img src="{% static 'imagens/pao_sovado.jpg' %}" alt="Pão Sovado">
+                    <div class="product-name">Pão Sovado</div>
+                    <div class="check-icon">✔</div>
+                </div>
+                <div class="product">
+                    <img src="{% static 'imagens/bolo_de_cenoura.jpg' %}" alt="Bolo de Cenoura com Chocolate">
+                    <div class="product-name">Bolo de Cenoura</div>
+                    <div class="check-icon">✔</div>
+                </div>
+                <div class="product">
+                    <img src="{% static 'imagens/bolo_redvalvet.jpg' %}" alt="Bolo Red Velvet">
+                    <div class="product-name">Bolo Red Velvet</div>
+                    <div class="check-icon">✔</div>
+                </div>
+            </div>
+            <div class="product-row">
+                <div class="product">
+                    <img src="{% static 'imagens/carolina.jpeg' %}" alt="Carolina">
+                    <div class="product-name">Carolina</div>
+                    <div class="check-icon">✔</div>
+                </div>
+                <div class="product">
+                    <img src="{% static 'imagens/pao_com_frios.jpeg' %}" alt="Pão com Frios">
+                    <div class="product-name">Pão com Frios</div>
+                    <div class="check-icon">✔</div>
+                </div>
+                <div class="product">
+                    <img src="{% static 'imagens/enrolado_de_salsicha.jpeg' %}" alt="Enroladinho de Salsicha">
+                    <div class="product-name">Enroladinho de Salsicha</div>
+                    <div class="check-icon">✔</div>
+                </div>
+            </div>
+            <div class="button-container">
+                <button type="submit" class="header-button">Pagamento</button>
+                <br>
+                <a href="{% url 'home' %}" class="header-button">Voltar</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

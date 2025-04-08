@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Panificadora Neves</title>
+    {% load static %}
+    <style>
+        body {
+            margin: 0;
+            font-family: Cutive Mono, sans-serif;
+            background-color: #ebebeb;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            text-align: center;
+        }
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100px;
+            background-color: #a41612;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            padding: 0 20px;
+        }
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 130px;
+            height: 130px;
+            background-color: #ffffff;
+            border-radius: 30%;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-top: 50px;
+        }
+        .logo {
+            position: relative;
+            max-width: 100px;
+            border-radius: 50%;
+        }
+        .header-buttons {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .header-button {
+            background-color: #fff;
+            color: #a41612;
+            border: 2px solid #a41612;
+            border-radius: 5px;
+            padding: 10px 20px;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .header-button:hover {
+            background-color: #a41612;
+            color: #fff;
+        }
+        .header-message {
+            position: relative;
+            margin-right: 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #fff;
+            font-size: 16px;
+        }
+        .header-message img {
+            width: 40px;
+            height: 40px;
+        }
+        main {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+            margin-top: 160px;
+        }
+        .product-container {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            margin-top: 20px;
+            width: 100%;
+            max-width: 1200px;
+
+        }
+        .product-box-meu_carrinho {
+            background-color: hsla(0, 0.00%, 100.00%, 0.80);
+            border-radius: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 800px;
+            height: auto;
+            margin-right: 50px;
+            align-items: center;
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, height 0.3s ease;
+            flex-direction:row
+
+        }
+        .product-box-quaintidade_e_observacoes {
+            background-color: hsla(0, 0.00%, 100.00%, 0.80);
+            border-radius: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            height: auto;
+            margin-right: 50px;
+            align-items: center;
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, height 0.3s ease;
+            flex-direction:row
+
+        }
+        .product-box-cabecalho  {
+            text-align: center;
+            magin-top: 20px;
+            flex: 1;
+
+        }
+        .product-box:hover {
+            transform: scale(1.05);
+        }
+        .product-info {
+            margin-left: 20px;
+            text-align: left;
+            flex: 1;
+            transition: transform 0.3s ease;
+        }
+        .product-info h1 {
+            margin: 0;
+            padding-bottom: 10px;
+        }
+        .product-box img {
+            border-radius: 15%;
+            width: 170px;
+            height: 200px;
+            max-height: 150px;
+            display: block;
+            margin-right: 20px;
+            transition: transform 0.3s ease;
+        }
+        h1 {
+            color: #333;
+        }
+        p {
+            color: #666;
+        }
+        footer {
+            background-color: #ebebeb;
+            color: #333;
+            padding: 20px;
+            text-align: center;
+            width: 100%;
+            height: 150px;
+            position: relative;
+            bottom: 0;
+            left: 0;
+        }
+        .footer-icons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+        }
+        .footer-icon {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        .instagram-icon, .googlemaps-icon {
+            width: 40px;
+            height: 40px;
+            vertical-align: middle;
+        }
+        h1 {
+            color: #333;
+        }
+        p {
+            color: #666;
+        }
+        footer {
+            background-color: #ebebeb;
+            color: #333;
+            padding: 20px;
+            text-align: center;
+            width: 100%;
+            height: 150px;
+            position: relative;
+            bottom: 0;
+            left: 0;
+        }
+        .footer-icons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+        }
+        .footer-icon {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        .instagram-icon, .googlemaps-icon {
+            width: 40px;
+            height: 40px;
+            vertical-align: middle;
+        }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&family=Winky+Sans:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <img src="{% static 'imagens/logo_padaria_menor.png' %}" alt="Panificadora Neves" class="logo">
+        </div>
+        <div class="header-buttons">
+            {% if user.is_authenticated %}
+                <div class="header-message">
+                    <img src="{% static 'imagens/chefe-de-cozinha_colorido.png' %}" alt="User Icon">
+                    <span>Bem-vindo, {{ user.cliente.primeiro_nome }}</span>
+                </div>
+                <a href="{% url 'logout' %}" class="header-button">Sair</a>
+                <a href="{% url 'fazer_pedido' %}" class="header-button">Iniciar pedido</a>
+            {% else %}
+                <div class="header-message">
+                    <img src="{% static 'imagens/chefe-de-cozinha.png' %}" alt="User Icon">
+                    <span>Por favor, entre com a sua conta</span>
+                </div>
+                <a href="{% url 'login' %}" class="header-button">Entrar</a>
+                <a href="{% url 'registro' %}" class="header-button">Registrar</a>
+            {% endif %}
+        </div>
+    </header>
+    <main>
+        <body>
+            <div class="product-container">
+
+                <div class="product-box-meu_carrinho">
+                    <div class="product-box-cabecalho">
+                        <p>Meu carrinho</p>
+                    </div>
+                </div>
+                <div class="product-box-quaintidade_e_observacoes">
+                    <div class="product-box-cabecalho">
+                        <p>Quantidade e observações</p>
+                    </div>
+                </div>
+            </div>
+        </body>
+    </main>
+    <footer>
+        <div class="footer-icons">
+            <div class="footer-icon">
+                <p>Siga-nos no Instagram para ver mais!</p>
+                <a href="https://www.instagram.com/padaria_nevespd/" target="_blank">
+                    <img src="{% static 'imagens/instagram.png' %}" alt="Instagram" class="instagram-icon">
+                </a>
+            </div>
+            <div class="footer-icon">
+                <p>Faça-nos uma visitinha!</p>
+                <a href="https://www.google.com.br/maps/place/Padaria+Neves/@-23.6379171,-46.4491313,17z/data=!3m1!4b1!4m6!3m5!1s0x94ce69294f144a93:0x23f0a8222921f85!8m2!3d-23.6379171!4d-46.4465564!16s%2Fg%2F11f3qx07sg?entry=ttu&g_ep=EgoyMDI1MDMwOC4wIKXMDSoASAFQAw%3D%3D" target="_blank">
+                    <img src="{% static 'imagens/google-maps.png' %}" alt="Google Maps" class="googlemaps-icon">
+                </a>
+            </div>
+        </div>
+    </footer>
+    <script src="{% static 'static.js/scripts.js' %}"></script>
+</body>
+</html>

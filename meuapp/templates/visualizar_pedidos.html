@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Visualizar Pedidos</title>
+</head>
+<body>
+    <h2>Pedidos</h2>
+    <ul>
+        {% for pedido in pedidos %}
+            <li>{{ pedido.cliente.username }} - {{ pedido.produto.name }} - {{ pedido.quantidade }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
